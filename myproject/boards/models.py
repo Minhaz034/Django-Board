@@ -17,7 +17,6 @@ class Topic(models.Model):
     starter = models.ForeignKey(User, related_name='topics',on_delete=models.DO_NOTHING)
     
 
-
 class Post(models.Model):
     message = models.TextField(max_length=4000)
     topic = models.ForeignKey(Topic, related_name='posts',on_delete=models.DO_NOTHING)
