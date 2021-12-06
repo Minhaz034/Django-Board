@@ -1,21 +1,26 @@
+from django.db.backends.utils import CursorDebugWrapper
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Board
+from django.db import connection
 
-posts = [
-    {
-        'author': 'CoreyMS',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'August 27, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'August 28, 2018'
-    }
-]
+
+def sql():
+    cursor = connection.cursor()
+    cursor.execute("select top 100 * from VIEW_CREDITANALYSISFINAL")
+    row = cursor.fetchall()
+    return row
+
+
+def group_wise_customers():
+    cursor = connection.cursor()
+    cursor.execute("""
+        select GradingDetails,COUNT(CustomerCode) as Ncustomers
+        from VIEW_CREDITANALYSISFINAL
+        group by GradingDetails
+    """)
+    data = cursor.fetchall()
+    return data
 
 
 # Create your views here.
@@ -25,8 +30,14 @@ def home(request):
     return render(request, 'boards/home.html',{'boards':boards})
 
 def about(request):
+    #data = {'posts':posts}
+    data = sql()
+    data_dict = {'customers':data}
+    return render(request, 'boards/about.html',data_dict)
 
-    data = {'posts':posts}
-    return render(request, 'boards/about.html',data)
+def groups(request):
+    data2 = group_wise_customers()
+    data_dict2 = {'groups':data2}
+    return render(request,'boards/about.html' ,data_dict2)
 
 

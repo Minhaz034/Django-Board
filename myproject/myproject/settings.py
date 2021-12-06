@@ -80,9 +80,16 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'STAGEDB',
+        'USER': 'sa',
+        'PASSWORD': 'dataport',
+        'HOST': '192.168.100.161',
+        'PORT': '',
+        'OPTIONS': {
+            'driver': 'SQL Server Native Client 11.0',
+        },
+    },
 }
 
 
