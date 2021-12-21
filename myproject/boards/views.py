@@ -40,4 +40,9 @@ def groups(request):
     data_dict2 = {'groups':data2}
     return render(request,'boards/about.html' ,data_dict2)
 
+def dashboard_home(request):
+    data2 = group_wise_customers()
+    data_dict2 = {'groups':data2}
+    return render(request,'dashboard/dashboard.html' ,data_dict2)
+
 
